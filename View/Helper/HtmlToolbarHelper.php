@@ -177,13 +177,13 @@ class HtmlToolbarHelper extends ToolbarHelper {
 			$head .= $this->Html->css($view->viewVars['debugToolbarCss']);
 		}
 
-		$js = sprintf('window.DEBUGKIT_JQUERY_URL = "%s";', $this->webroot('/debug_kit/js/jquery.js'));
-		$head .= $this->Html->scriptBlock($js);
+		$jsCode = sprintf('window.DEBUGKIT_JQUERY_URL = "%s";', $this->webroot('/debug_kit/js/jquery.js'));
+		$js = $this->Html->scriptBlock($jsCode);
 
 		if (isset($view->viewVars['debugToolbarJavascript'])) {
 			foreach ($view->viewVars['debugToolbarJavascript'] as $script) {
 				if ($script) {
-					$head .= $this->Html->script($script);
+					$js .= $this->Html->script($script);
 				}
 			}
 		}
@@ -192,7 +192,7 @@ class HtmlToolbarHelper extends ToolbarHelper {
 		if ($pos !== false) {
 			$view->output = substr_replace($view->output, $head . "\n</head>", $pos, strlen($search));
 		}
-		$toolbar = $view->element('debug_toolbar', array('disableTimer' => true), array('plugin' => 'DebugKit'));
+		$toolbar = $js . $view->element('debug_toolbar', array('disableTimer' => true), array('plugin' => 'DebugKit'));
 		$search = '</body>';
 		$pos = strrpos($view->output, $search);
 		if ($pos !== false) {
