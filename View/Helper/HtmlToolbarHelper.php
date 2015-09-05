@@ -187,10 +187,10 @@ class HtmlToolbarHelper extends ToolbarHelper {
 				}
 			}
 		}
-		$search = '</head>';
+		$search = '<head>';
 		$pos = strpos($view->output, $search);
 		if ($pos !== false) {
-			$view->output = substr_replace($view->output, $head . "\n</head>", $pos, strlen($search));
+			$view->output = substr_replace($view->output, "<head>\n" . $head, $pos, strlen($search));
 		}
 		$toolbar = $js . $view->element('debug_toolbar', array('disableTimer' => true), array('plugin' => 'DebugKit'));
 		$search = '</body>';
